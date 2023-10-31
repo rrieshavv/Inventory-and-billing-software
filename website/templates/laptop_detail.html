@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="my-5">{{item}}</h2>
+    <h3>Specifications:</h3>
+    <table class="table table-bordered border-primary">
+          <tbody>
+            <tr>
+              <th class="fw-semibold col-3">Model</th>
+              <td class="fw-semibold">{{item.model}}</td>              
+            </tr>
+            <tr>
+              <th class="fw-semibold col-3">Brand</th>
+              <td class="fw-semibold">{{item.brand}}</td>              
+            </tr>
+            <tr>
+              <th class="fw-semibold col-3">RAM</th>
+              <td class="fw-semibold">{{item.ram}}</td>              
+            </tr>
+            <tr>
+              <th class="fw-semibold col-3">Chipset</th>
+              <td class="fw-semibold">{{item.chipset}}</td>              
+            </tr>
+            <tr>
+              <th class="fw-semibold col-3">Storage</th>
+              <td class="fw-semibold">{{item.storage}}</td>              
+            </tr>
+            <tr>
+              <th class="fw-semibold col-3">Processor</th>
+              <td class="fw-semibold">{{item.processor}}</td>              
+            </tr>
+            <tr>
+              <th class="fw-semibold col-3">Graphics card</th>
+              <td class="fw-semibold">{{item.graphics}}</td>              
+            </tr>
+            <tr>
+              <th class="fw-semibold col-3">Operating system</th>
+              <td class="fw-semibold">{{item.operating_sys}}</td>              
+            </tr>
+            
+          </tbody> 
+
+{% endblock %}

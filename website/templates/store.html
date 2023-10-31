@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{%block content%}
+
+<div class="mt-5">
+    <h1>Inventory</h1>
+</div>
+
+<table class="table mt-5 table-striped table-bordered ">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Model</th>
+        <th scope="col">Brand</th>
+        <th scope="col">RAM</th>
+        <th scope="col">Price</th>
+        {% if user.is_superuser  %}
+        <th scope="col">Quantity</th>
+        {% else %}
+        <th scope="col">Status</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for laptop in laptops %}
+      <tr>
+        <th scope="row">{{laptop.id}}</th>
+        <td><a href="{% url 'store_item' laptop.id %}">{{laptop.model}}</a></td>
+        <td>{{laptop.brand}}</td>
+        <td>{{laptop.ram}}</td>
+        <td>Rs. {{laptop.price}}</td>
+        
+        {% if user.is_superuser %}
+        <td>{{laptop.qty}}
+        {% if laptop.qty == 0 %}
+        <span class="text-danger fw-semibold">(Out of stock)</span>
+        {% endif %}
+        </td>
+        {% else %}  
+          {% if laptop.qty > 0 %}
+          <td><span class="badge rounded-pill text-bg-success">Available</span></td>
+          {% else %}
+          <td><span class="badge rounded-pill text-bg-danger">Out of stock</span></td>
+          {% endif %}        
+        {% endif %}
+          
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{%endblock%}

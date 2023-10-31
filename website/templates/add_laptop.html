@@ -1,0 +1,56 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+<h1 class="my-5">Add laptop</h1>
+<form class="row g-3" method="POST" action="{%url 'add_laptop'%}">
+  {% csrf_token %}
+    <div class="col-md-6">
+      <label for="brand" class="form-label">Brand</label>
+      <input type="brand" name="brand" class="form-control border-primary" placeholder="Lenovo" >
+    </div>
+    <div class="col-md-6">
+      <label for="model" class="form-label">Model</label>
+      <input type="model" name="model" class="form-control border-primary" placeholder="Yoga Slim 7">
+    </div>
+    <div class="col-md-3">
+      <label for="price" class="form-label">Price</label>
+      <input type="number" name="price" step="0.01" class="form-control border-primary" placeholder="XXXXX.XX">
+    </div>
+    
+    <div class="col-md-1">
+        <label for="quantity" class="form-label">Quantity</label>
+        <input type="number" name="qty" min="0" class="form-control border-primary" placeholder="Qty">
+      </div>
+    <div class="col-md-3">
+      <label for="ram" class="form-label">RAM</label>
+      <input type="text" name="ram"  class="form-control border-primary" placeholder="8 GB">
+    </div>
+    <div class="col-md-5">
+      <label for="chipset" class="form-label">Chipset</label>
+      <input type="text" name="chipset" class="form-control border-primary" placeholder="Intel Core i7">
+    </div>
+    
+    <div class="col-md-6">
+      <label for="processor" class="form-label">Processor</label>
+      <input type="text" name="processor" class="form-control border-primary" placeholder="Intel Core i7-1165G7" >
+    </div>
+    <div class="col-md-6">
+      <label for="storage" class="form-label">Storage</label>
+      <input type="text" name="storage" class="form-control border-primary" placeholder="512 GB NVMe SSD"  >      
+    </div>
+    <div class="col-md-6">
+      <label for="graphicsCard" class="form-label">Graphics card</label>
+      <input type="text" name="graphics" class="form-control border-primary" placeholder="Intel Iris Xe">
+    </div>
+    <div class="col-md-6">
+      <label for="operatingSystem" class="form-label">Operating System</label>
+      <input type="text" name="operating_system" class="form-control border-primary" placeholder="Windows 10">
+    </div>
+    <div class="col-md-12">
+      <a class="btn btn-danger" href="{% url 'home' %}">Cancel</a>
+      <button type="submit" class="btn btn-primary">Add the laptop</button>
+    </div>
+  </form>
+
+{%endblock%}

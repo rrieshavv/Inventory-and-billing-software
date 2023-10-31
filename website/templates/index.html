@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="mt-5">
+    <h1 id="datetime"></h1>
+</div>
+<div class="row mt-5 text-center">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Show Inventory</h5>
+          <p class="card-text">View the current inventory of products in our store.</p>
+          <a href="{% url 'store' %}" class="btn btn-primary">Click here</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Add new laptop to stock</h5>
+          <p class="card-text">Add a new laptop product to our inventory.</p>
+          <a href="{% url 'add_laptop' %}" class="btn btn-primary">Click here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function updateDateTime() {
+        const dateTimeElement = document.getElementById("datetime");
+        const currentDate = new Date();
+        const dateTimeString = currentDate.toLocaleString();
+        dateTimeElement.textContent = dateTimeString;
+    }
+
+    // Update the date and time immediately when the page loads
+    updateDateTime();
+
+    // Update the date and time every second (1000 milliseconds)
+    setInterval(updateDateTime, 1000);
+  </script>
+
+
+{% endblock %}
