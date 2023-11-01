@@ -1,0 +1,84 @@
+{%extends 'base.html'%}
+{% block content %}
+<h3 class="my-3">Bill estimate: {{item}}</h3>
+<hr />
+<form action="{%url 'sale_laptop' item.id %}" method="POST">
+    {% csrf_token %}
+    <div class="row mb-3">
+      <label for="inputModel" class="col-sm-1 col-form-label fw-semibold">Model</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control border-primary" id="inputModel" value="{{item.model}}" name="model" disabled required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="inputBrand" class="col-sm-1 col-form-label fw-semibold">Brand</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control border-primary" id="inputBrand" value="{{item.brand}}" name="brand" disabled required>
+      </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputPrice" class="col-sm-1 col-form-label fw-semibold">Price</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control border-primary" id="inputPrice" value="Rs. {{item.price}}" name="price" disabled required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="inputQty" class="col-sm-1 col-form-label fw-semibold">Qty</label>
+        <div class="col-sm-1">
+          <input type="number" name="qty" min="1" class="form-control border-primary" placeholder="Enter qty" id="inputQty" required>
+        </div>
+      </div>
+      <h3 id="totalPrice">Total Price: Rs. 0</h3>
+
+    <h4 class="my-3">Customer Details: </h4>
+    <hr />
+    <div class="row mb-3">
+        <label for="inputFullname" class="col-sm-1 col-form-label fw-semibold">Full Name</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control border-primary" id="inputFullname"  name="fullname" placeholder="Enter customer's name"  required>
+        </div>
+      </div>
+    <div class="row mb-3">
+        <label for="inputAddress" class="col-sm-1 col-form-label fw-semibold">Address</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control border-primary" id="inputAddress"  name="address" placeholder="Enter customer's address" required>
+        </div>
+      </div>
+    <div class="row mb-3">
+        <label for="inputPhone" class="col-sm-1 col-form-label fw-semibold">Phone</label>
+        <div class="col-sm-5">
+          <input type="number" min="9700000000" class="form-control border-primary" id="inputPhone"  name="phone" placeholder="Enter customer's phone" required>
+        </div>
+      </div>
+    <div class="row mb-3">
+        <label for="inputEmail" class="col-sm-1 col-form-label fw-semibold">Email</label>
+        <div class="col-sm-5">
+          <input type="email" class="form-control border-primary" id="inputEmail"  name="email" placeholder="Enter customer's email" required>
+        </div>
+      </div>
+    <button type="submit" class="btn btn-primary">Confirm </button>
+  </form>
+{% endblock %}
+{% block script %} 
+<script>
+    // Get references to the price and quantity elements
+    const inputPrice = document.getElementById("inputPrice");
+    const inputQty = document.getElementById("inputQty");
+    const totalPrice = document.getElementById("totalPrice");
+  
+    // Parse the price from the "inputPrice" value
+    const itemPrice = parseFloat(inputPrice.value.replace("Rs. ", ""));
+  
+    // Add an event listener to the quantity input field
+    inputQty.addEventListener("input", () => {
+      // Get the current quantity value
+      const quantity = parseInt(inputQty.value) || 0;
+  
+      // Calculate the total price by multiplying quantity with itemPrice
+      const total = quantity * itemPrice;
+  
+      // Update the total price display
+      totalPrice.textContent = `Total Price: Rs. ${total.toFixed(2)}`;
+    });
+  </script>
+{%endblock%}

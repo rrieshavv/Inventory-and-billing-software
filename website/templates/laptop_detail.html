@@ -19,9 +19,8 @@
             <span class="position-absolute top-0 start-100 translate-middle p-2 bg-success border border-light rounded-circle">
               <span class="text-white">Available</span>
             </span>
-            <a class="btn btn-primary mt-4">Sell this laptop</a>
+            <a class="btn btn-primary mt-4" href="{% url 'sale_laptop' item.id %}">Sell this laptop</a>
             {% else %}
- 
             <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
               <span class="text-white">Unavailable</span>
             </span>

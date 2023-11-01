@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Laptop
+from .models import Laptop, Order
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 import locale
@@ -94,9 +94,7 @@ def add_laptop(request):
             
             except ValueError:
                 messages.error(request, "Incorrect Input found!")
-                pass
 
-            
         return render(request, "add_laptop.html", {'page':'Add laptop to stock','add_status':'active'})
     messages.error(request,"Please login to add a new laptop to the stock.")
     return redirect('home')
@@ -111,3 +109,57 @@ def store_item(request, pk):
     else:
         messages.error(request,"Please login to view the laptop details.")
         return redirect('home')
+
+def sale_laptop(request, pk):
+    if request.method=="POST" and request.user.is_authenticated:
+        item = Laptop.objects.get(id=pk)
+        #model brand price
+        model = item.model
+        brand = item.brand
+        price = item.price
+
+        
+        #qty fullname phone  address email total price
+        try:
+            qty = int(request.POST['qty'])
+            phone = int(request.POST['phone'])
+            fullname  = request.POST['fullname']
+            address = request.POST['address']
+            email = request.POST['email']
+            total_price = qty*price
+
+            if not(brand and model and price and qty and phone and fullname and address and email and total_price):
+                messages.error(request, "Empty fields found! Try again...")
+                return render(request, "sale_laptop.html", {'item':item,'page':'Perform sales','sale_status':'active'})
+
+            if item.qty < qty:
+                messages.error(request, "Not enough quantity in stock! Transaction failed!")
+                return render(request, "sale_laptop.html", {'item':item,'page':'Perform sales','sale_status':'active'})
+            
+            new_order = Order(
+                brand = brand,
+                model = model,
+                qty = qty,
+                price_per_unit = price,
+                total_price = total_price,
+                customer_name = fullname,
+                customer_phone = phone,
+                customer_address= address,
+                customer_email = email
+            )
+            #updating qty in DB
+            item.qty -= qty
+            item.save()
+
+            new_order.save()
+            messages.success(request,"Transaction successful! Thank you...")
+            return redirect('home')
+        except ValueError:
+            messages.error(request, "Purchase failed! Try again!")
+            return render(request, "sale_laptop.html", {'item':item,'page':'Perform sales','sale_status':'active'})
+        
+    if request.user.is_authenticated:
+        item = Laptop.objects.get(id=pk)
+        return render(request, "sale_laptop.html", {'item':item,'page':'Perform sales','sale_status':'active'})
+    messages.error(request,"Login to enter sale portal.")
+    return redirect("home")
