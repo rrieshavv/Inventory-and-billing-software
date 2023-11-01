@@ -3,7 +3,7 @@
 {%block content%}
 
 <h1 class="my-5">Add laptop</h1>
-<form class="row g-3" method="POST" action="{%url 'add_laptop'%}">
+<form class="row g-3" method="POST" enctype="multipart/form-data" action="{%url 'add_laptop'%}">
   {% csrf_token %}
     <div class="col-md-6">
       <label for="brand" class="form-label">Brand</label>
@@ -46,6 +46,10 @@
     <div class="col-md-6">
       <label for="operatingSystem" class="form-label">Operating System</label>
       <input type="text" name="operating_system" class="form-control border-primary" placeholder="Windows 10">
+    </div>
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Upload the image</label>
+      <input class="form-control" type="file" id="formFile" name="laptop_img1">
     </div>
     <div class="col-md-12">
       <a class="btn btn-danger" href="{% url 'home' %}">Cancel</a>

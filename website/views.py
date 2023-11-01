@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Laptop
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+import locale
 # Create your views here.
 def home(request):
     # user signed in
@@ -53,10 +56,12 @@ def add_laptop(request):
             storage = request.POST['storage']
             graphics = request.POST['graphics']
             operating_system = request.POST['operating_system']
+            laptop_img1 = request.FILES['laptop_img1']
 
             if not(brand and model and price and qty and ram and chipset and processor and storage and graphics and operating_system):
                 messages.error(request, "Empty fields found!")
-                pass
+                return render(request, "add_laptop.html", {'page':'Add laptop to stock','add_status':'active'})
+                
             
             try:
                 qty = int(qty)
@@ -79,6 +84,9 @@ def add_laptop(request):
                         graphics = graphics,
                         operating_sys = operating_system
                     )
+                    # saving the image
+                    image_path = default_storage.save(f"laptop_images/{laptop_img1.name}", ContentFile(laptop_img1.read()))
+                    new_laptop.laptop_img1 = image_path
 
                     new_laptop.save()
                     messages.success(request, "New laptop has been added to the stock! ")
@@ -96,7 +104,10 @@ def add_laptop(request):
 def store_item(request, pk):
     if request.user.is_authenticated:
         item = Laptop.objects.get(id=pk)
-        return render(request, "laptop_detail.html", {"item":item, "page":"Store: "+item.model})
+        return render(request, "laptop_detail.html", {
+            "item":item, 
+            "page":"Store: "+item.model
+            })
     else:
         messages.error(request,"Please login to view the laptop details.")
         return redirect('home')

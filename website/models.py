@@ -14,6 +14,7 @@ class Laptop(models.Model):
     processor = models.CharField(max_length=100)
     graphics = models.CharField(max_length=100)
     operating_sys = models.CharField(max_length=100)
+    laptop_img1 = models.ImageField(null=True, blank=True, upload_to="images/")
 
     def __str__(self):
         return(f"{self.brand} {self.model}")

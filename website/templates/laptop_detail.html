@@ -1,8 +1,37 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-    <h2 class="my-5">{{item}}</h2>
-    <h3>Specifications:</h3>
+    <h2 class="my-3">{{item}}</h2>
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          {% if item.laptop_img1 %}
+          <img src="{{item.laptop_img1.url}}" class="img-fluid rounded-start" alt="{{item.model}}" />
+          {% else %}
+          <img src="{% static 'images/default-laptop.jpg' %}" class="img-fluid rounded-start" alt="{{item.model}}" />
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Rs. {{item.price}}</h5>
+            <p class="card-text"></p>
+            {% if item.qty > 0  %}
+            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-success border border-light rounded-circle">
+              <span class="text-white">Available</span>
+            </span>
+            <a class="btn btn-primary mt-4">Sell this laptop</a>
+            {% else %}
+ 
+            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+              <span class="text-white">Unavailable</span>
+            </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <h3 class="my-2">Specifications:</h3>
     <table class="table table-bordered border-primary">
           <tbody>
             <tr>
@@ -39,5 +68,7 @@
             </tr>
             
           </tbody> 
+        </table>
+    <a class="btn btn-danger" href="{%url 'store'%}">Back to store</a>
 
 {% endblock %}
